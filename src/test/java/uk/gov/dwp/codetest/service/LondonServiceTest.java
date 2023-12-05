@@ -18,12 +18,14 @@ class LondonServiceTest {
   @Test
   void getUsers() {
     final List<User> users = londonService.getUsers();
+    System.out.println("\n\nThis is the user list" + users.toString());
     assertNotNull(users);
   }
 
   @Test
   void getUsersInLondon() {
     final List<User> users = londonService.getUsersInLondon();
+    System.out.println("\n\nThis is the user list" + users.toString());
     assertNotNull(users);
   }
 }
