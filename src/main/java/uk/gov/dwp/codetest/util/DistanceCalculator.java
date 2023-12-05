@@ -7,8 +7,8 @@ public class DistanceCalculator {
     public static boolean withinGivenMilesOfLondon(int miles, double locationLatitude, double locationLongitude) {
         final double londonLatitude = 51.50722;
         final double londonLongitude = -0.1275;
-        double range = miles * kilometerConversion; //convert miles to km
-        return calculateDistance(londonLatitude, londonLongitude, locationLatitude, locationLongitude) <= range; //ToDo investigate rounding error
+        double range = miles * kilometerConversion;
+        return calculateDistance(londonLatitude, londonLongitude, locationLatitude, locationLongitude) <= range; //ToDo investigate possible rounding error
     }
     public static double calculateDistance(double startLat, double startLong,
                                            double endLat, double endLong) {

@@ -16,8 +16,8 @@ import uk.gov.dwp.codetest.util.DistanceCalculator;
 @Service
 public class LondonService {
 
-  private final WebClient londonRegisteredUsers = WebClient.create("https://london-api.onrender.com/city/London/users");
-  private final WebClient allUsers = WebClient.create("https://london-api.onrender.com/users");
+  private final WebClient londonRegisteredUsers;
+  private final WebClient allUsers;
 
   public List<User> getUsers() {
     // TODO : get all users
