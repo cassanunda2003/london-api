@@ -1,8 +1,5 @@
 package uk.gov.dwp.codetest.service;
 
-import java.util.List;
-import java.util.Objects;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -13,6 +10,8 @@ import reactor.core.publisher.Mono;
 import uk.gov.dwp.codetest.domain.User;
 import uk.gov.dwp.codetest.util.DistanceCalculator;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class LondonService {
@@ -20,29 +19,24 @@ public class LondonService {
   @Autowired
   private final WebClient webClient;
 
-  public List<User> getUsers() {
+  public Mono<List<User>> getUsers() {
     // TODO : get all users
 
-    Mono<List<User>> response = webClient.get().uri("https://london-api.onrender.com//city/London/users")
+    return webClient.get().uri("https://london-api.onrender.com//city/London/users")
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .bodyToMono(new ParameterizedTypeReference<List<User>>() {});
-
-    return response.block();
-
   }
 
-  public List<User> getUsersInLondon() {
-    // TODO : get all users in London
+  public Mono<List<User>> getUsersInLondon() {
 
-    Mono<List<User>> response = webClient.get().uri("https://london-api.onrender.com/users")
+    return webClient.get().uri("https://london-api.onrender.com/users")
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(new ParameterizedTypeReference<List<User>>() {});
+            .bodyToMono(new ParameterizedTypeReference<List<User>>() {}).map(
+                    users -> users.stream().filter(c -> DistanceCalculator.withinGivenMilesOfLondon(50, c.getLatitude(), c.getLongitude())).toList()
+            );
 
-      return Objects.requireNonNull(response.block())
-            .stream()
-            .filter(c -> DistanceCalculator.withinGivenMilesOfLondon(50, c.getLatitude(),c.getLongitude() )).toList();
 
   }
 
