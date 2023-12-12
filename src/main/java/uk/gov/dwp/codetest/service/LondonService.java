@@ -22,7 +22,7 @@ public class LondonService {
   public Mono<List<User>> getUsers() {
     // TODO : get all users
 
-    return webClient.get().uri("https://london-api.onrender.com//city/London/users")
+    return webClient.get().uri("https://london-api.onrender.com/city/London/users")
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .bodyToMono(new ParameterizedTypeReference<List<User>>() {});
